@@ -1,13 +1,14 @@
 clc
 clear all
 close all
-w0=2*pi/40;
-N=50;
-t=0:0.8:40-0.8;
-x=square(w0*t,27.5);
-X=fft(x,N);
-figure(1),plot(fftshift(abs(X)));
-title('Spectru amplitudini');
-x1=ifft(X,N);
-figure(2), plot(t,x,t,x1);
-title('Semnale');
+P=40; % perioada de 40 de secunde
+w0=2*pi/P; %pulsatia semnalului
+N=50; %numarul de esantioane pentru Transformata Fourier
+t=0:0.8:40-0.8; % baza de timp (50 de esantioane); semnalul este subesantionat (nu respecta frecventa Nyquist)
+x=square(w0*t,27.5);%generarea semnalui dreptunghiular
+x=x+1;% am vazut ca semnalul trebuie sa fie pe axa ordonatelor intre 0 si 1. Semnalul scos de functia square este intre -1 si 1. Astfel ca adunam 1 la toate elementele, ca sa avem semanlul in intre 0 si 2
+x=x./2;% si apoi impartim tot semnalul la 2 ca sa ajunga sa fie intre 0 si 1 
+X=fft(x,N);% efectuarea Transformatei Fourier
+figure(1),plot(fftshift(abs(X))),title('Spectrul semnalului dreptungiular'); % spectrul semnalului de intrare
+x1=ifft(X,N);%efectuarea transformatei fourier inverse
+figure(2), plot(t,x,t,x1),title('Compararea semnalului initial cu cel reconstruit ')% compararea semanlului de intrare cu cel reconstruit
