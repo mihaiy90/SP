@@ -1,0 +1,13 @@
+clc
+clear all
+close all
+w0=2*pi/40;
+N=50;
+t=0:0.8:40-0.8;
+x=square(w0*t,27.5);
+X=fft(x,N);
+figure(1),plot(fftshift(abs(X)));
+title('Spectru amplitudini');
+x1=ifft(X,N);
+figure(2), plot(t,x,t,x1);
+title('Semnale');
